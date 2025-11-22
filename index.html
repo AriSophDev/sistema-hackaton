@@ -5,116 +5,177 @@
 <title>Producción Solar - Región 6</title>
 
 <style>
-    body {
-        font-family: "Segoe UI", sans-serif;
-        background: #eef3f7;
-        padding: 20px;
-        color: #333;
-    }
+/* ------------------ RESET ------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    h2 {
-        text-align: center;
-        color: #004d73;
-        margin-bottom: 10px;
-    }
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #e6f2f8, #f4f9fc);
+    padding: 25px;
+    color: #333;
+    animation: fadeIn 0.8s ease-out;
+}
 
-    .container {
-        max-width: 1100px;
-        margin: auto;
-    }
+/* ------------------ TITULO ------------------ */
+h2 {
+    text-align: center;
+    color: #004d73;
+    margin-bottom: 20px;
+    animation: slideDown 0.8s ease-out;
+}
 
-    /* Tarjetas de resumen */
-    .cards {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
+/* ------------------ CONTENEDOR ------------------ */
+.container {
+    max-width: 1150px;
+    margin: auto;
+}
 
-    .card {
-        flex: 1;
-        background: white;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        text-align: center;
-    }
+/* ------------------ ANIMACIONES ------------------ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-    .card h3 {
-        margin: 0;
-        font-size: 18px;
-    }
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
 
-    .card p {
-        font-size: 22px;
-        color: #0077a3;
-        margin-top: 8px;
-    }
+@keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
 
-    /* Contenedor de filtros */
-    .filtros {
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-        background: white;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
+@keyframes fadeRow {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    select, input[type="range"], input[type="text"] {
-        padding: 8px;
-        font-size: 15px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        width: 100%;
-    }
+/* ------------------ TARJETAS ------------------ */
+.cards {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
 
-    label {
-        font-weight: bold;
-    }
+.card {
+    flex: 1;
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    text-align: center;
+    animation: pop 0.6s ease-out;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+    cursor: pointer;
+}
 
-    .filtro-item {
-        flex: 1;
-        min-width: 200px;
-    }
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
+.card.active {
+    border: 3px solid #008ac2;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,100,150,0.25);
+}
 
-    th {
-        background: #0077a3;
-        color: white;
-        padding: 12px;
-        text-align: left;
-    }
+.card h3 {
+    font-size: 18px;
+}
 
-    td {
-        padding: 10px;
-        border-bottom: 1px solid #e6e6e6;
-    }
+.card p {
+    font-size: 24px;
+    margin-top: 8px;
+    color: #0077a3;
+}
 
-    /* Colores */
-    .alto {
-        background-color: #d4f7c5 !important;
-    }
+/* ------------------ FILTROS ------------------ */
+.filtros {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    animation: fadeIn 1s ease-out;
+}
 
-    .medio {
-        background-color: #fff7c2 !important;
-    }
+.filtro-item {
+    flex: 1;
+    min-width: 200px;
+}
 
-    .bajo {
-        background-color: #f7d4d4 !important;
-    }
+label {
+    font-weight: bold;
+    color: #005b7a;
+}
+
+select, input[type="range"], input[type="text"] {
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    width: 100%;
+    margin-top: 5px;
+    transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+select:focus, input[type="range"]:focus, input[type="text"]:focus {
+    border: 1px solid #0077a3;
+    box-shadow: 0 0 5px rgba(0,119,163,0.4);
+}
+
+/* ------------------ TABLA ------------------ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+th {
+    background: #0077a3;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    animation: fadeRow 0.5s ease-out;
+}
+
+/* Hover filas */
+tbody tr:hover {
+    background: #e9f7ff !important;
+    cursor: pointer;
+}
+
+/* ------------------ COLORES DE PRODUCCIÓN ------------------ */
+.alto { background-color: #d4f7c5 !important; }
+.medio { background-color: #fff7c2 !important; }
+.bajo { background-color: #f7d4d4 !important; }
+
+/* Fila resaltada por tarjetas */
+.destacado {
+    outline: 3px solid #0094c9;
+    background: #dff6ff !important;
+}
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
@@ -122,21 +183,21 @@
 
     <!-- Tarjetas resumen -->
     <div class="cards">
-        <div class="card">
+        <div class="card" id="cardMax">
             <h3>Producción Máxima</h3>
             <p id="maxValue">--</p>
         </div>
-        <div class="card">
+        <div class="card" id="cardMin">
             <h3>Producción Mínima</h3>
             <p id="minValue">--</p>
         </div>
-        <div class="card">
+        <div class="card" id="cardAvg">
             <h3>Promedio</h3>
             <p id="avgValue">--</p>
         </div>
     </div>
 
-    <!-- Filtros avanzados -->
+    <!-- Filtros -->
     <div class="filtros">
         <div class="filtro-item">
             <label>Filtrar por departamento</label>
@@ -183,67 +244,112 @@
 </div>
 
 <script>
-    const rows = document.querySelectorAll("#tablaSolar tbody tr");
+const rows = document.querySelectorAll("#tablaSolar tbody tr");
 
-    // Resaltado por rangos
+// Colorear filas según producción
+rows.forEach((row, i) => {
+    const val = Number(row.children[2].innerText);
+    if (val >= 330) row.classList.add("alto");
+    else if (val >= 300) row.classList.add("medio");
+    else row.classList.add("bajo");
+
+    row.style.animationDelay = (i * 0.1) + "s";
+});
+
+// ------------------ ESTADÍSTICAS ------------------
+function actualizarStats() {
+    const valores = [...document.querySelectorAll("#tablaSolar tbody tr")]
+        .filter(r => r.style.display !== "none")
+        .map(r => Number(r.children[2].innerText));
+
+    document.getElementById("maxValue").innerText = valores.length ? Math.max(...valores) : "--";
+    document.getElementById("minValue").innerText = valores.length ? Math.min(...valores) : "--";
+    document.getElementById("avgValue").innerText =
+        valores.length ? (valores.reduce((a,b)=>a+b,0) / valores.length).toFixed(1) : "--";
+}
+actualizarStats();
+
+// ------------------ FILTROS ------------------
+document.getElementById("departamentoSelect").addEventListener("change", filtrar);
+document.getElementById("buscadorMes").addEventListener("input", filtrar);
+document.getElementById("rangoProduccion").addEventListener("input", function () {
+    document.getElementById("valorRango").innerText = this.value;
+    filtrar();
+});
+
+function filtrar() {
+    const dep = document.getElementById("departamentoSelect").value;
+    const mesBuscado = document.getElementById("buscadorMes").value.toLowerCase();
+    const rangoMax = Number(document.getElementById("rangoProduccion").value);
+
     rows.forEach(row => {
-        const val = Number(row.children[2].innerText);
-        if (val >= 330) row.classList.add("alto");
-        else if (val >= 300) row.classList.add("medio");
-        else row.classList.add("bajo");
+        const mes = row.children[0].innerText.toLowerCase();
+        const departamento = row.children[1].innerText;
+        const produccion = Number(row.children[2].innerText);
+
+        const coincideDep = dep === "todos" || departamento === dep;
+        const coincideMes = mes.includes(mesBuscado);
+        const coincideRango = produccion <= rangoMax;
+
+        row.style.display = (coincideDep && coincideMes && coincideRango) ? "" : "none";
+        row.classList.remove("destacado");
     });
 
-    // Actualizar tarjetas resumen
-    function actualizarStats() {
-        const valores = [...document.querySelectorAll("#tablaSolar tbody tr")]
-            .filter(r => r.style.display !== "none")
-            .map(r => Number(r.children[2].innerText));
-
-        if (valores.length > 0) {
-            document.getElementById("maxValue").innerText = Math.max(...valores);
-            document.getElementById("minValue").innerText = Math.min(...valores);
-            document.getElementById("avgValue").innerText = 
-                (valores.reduce((a,b)=>a+b,0) / valores.length).toFixed(1);
-        } else {
-            document.getElementById("maxValue").innerText = "--";
-            document.getElementById("minValue").innerText = "--";
-            document.getElementById("avgValue").innerText = "--";
-        }
-    }
-
+    limpiarTarjetas();
     actualizarStats();
+}
 
-    // Filtro por departamento
-    document.getElementById("departamentoSelect").addEventListener("change", filtrar);
+// ------------------ FUNCIONES TARJETAS ------------------
+const cardMax = document.getElementById("cardMax");
+const cardMin = document.getElementById("cardMin");
+const cardAvg = document.getElementById("cardAvg");
 
-    // Filtro por mes
-    document.getElementById("buscadorMes").addEventListener("input", filtrar);
+cardMax.addEventListener("click", () => aplicarFiltroTarjeta("max"));
+cardMin.addEventListener("click", () => aplicarFiltroTarjeta("min"));
+cardAvg.addEventListener("click", () => aplicarFiltroTarjeta("avg"));
 
-    // Filtro por rango
-    document.getElementById("rangoProduccion").addEventListener("input", function () {
-        document.getElementById("valorRango").innerText = this.value;
-        filtrar();
-    });
+function limpiarResaltado() {
+    rows.forEach(row => row.classList.remove("destacado"));
+}
 
-    function filtrar() {
-        const dep = document.getElementById("departamentoSelect").value;
-        const mesBuscado = document.getElementById("buscadorMes").value.toLowerCase();
-        const rangoMax = Number(document.getElementById("rangoProduccion").value);
+function limpiarTarjetas() {
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+}
 
-        rows.forEach(row => {
-            const mes = row.children[0].innerText.toLowerCase();
-            const departamento = row.children[1].innerText;
-            const produccion = Number(row.children[2].innerText);
+function aplicarFiltroTarjeta(tipo) {
+    const card = tipo === "max" ? cardMax :
+                 tipo === "min" ? cardMin : cardAvg;
 
-            const coincideDep = dep === "todos" || departamento === dep;
-            const coincideMes = mes.includes(mesBuscado);
-            const coincideRango = produccion <= rangoMax;
-
-            row.style.display = (coincideDep && coincideMes && coincideRango) ? "" : "none";
-        });
-
-        actualizarStats();
+    // Si ya está activa → limpiar filtro
+    if (card.classList.contains("active")) {
+        card.classList.remove("active");
+        limpiarResaltado();
+        return;
     }
+
+    limpiarResaltado();
+    limpiarTarjetas();
+    card.classList.add("active");
+
+    const visibles = [...rows].filter(r => r.style.display !== "none");
+    const valores = visibles.map(r => Number(r.children[2].innerText));
+
+    const max = Math.max(...valores);
+    const min = Math.min(...valores);
+    const avg = valores.reduce((a,b)=>a+b,0) / valores.length;
+
+    visibles.forEach(row => {
+        const v = Number(row.children[2].innerText);
+
+        if (
+            (tipo === "max" && v === max) ||
+            (tipo === "min" && v === min) ||
+            (tipo === "avg" && Math.abs(v - avg) <= 8)
+        ) {
+            row.classList.add("destacado");
+        }
+    });
+}
 </script>
 
 </body>
