@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Producción Solar - Región 6</title>
+
+<style>
+    body {
+        font-family: "Segoe UI", sans-serif;
+        background: #eef3f7;
+        padding: 20px;
+        color: #333;
+    }
+
+    h2 {
+        text-align: center;
+        color: #004d73;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    /* Tarjetas de resumen */
+    .cards {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        flex: 1;
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        text-align: center;
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .card p {
+        font-size: 22px;
+        color: #0077a3;
+        margin-top: 8px;
+    }
+
+    /* Contenedor de filtros */
+    .filtros {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    select, input[type="range"], input[type="text"] {
+        padding: 8px;
+        font-size: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .filtro-item {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    th {
+        background: #0077a3;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    /* Colores */
+    .alto {
+        background-color: #d4f7c5 !important;
+    }
+
+    .medio {
+        background-color: #fff7c2 !important;
+    }
+
+    .bajo {
+        background-color: #f7d4d4 !important;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>Producción Solar Mensual - Región 6 (Caribe)</h2>
+
+    <!-- Tarjetas resumen -->
+    <div class="cards">
+        <div class="card">
+            <h3>Producción Máxima</h3>
+            <p id="maxValue">--</p>
+        </div>
+        <div class="card">
+            <h3>Producción Mínima</h3>
+            <p id="minValue">--</p>
+        </div>
+        <div class="card">
+            <h3>Promedio</h3>
+            <p id="avgValue">--</p>
+        </div>
+    </div>
+
+    <!-- Filtros avanzados -->
+    <div class="filtros">
+        <div class="filtro-item">
+            <label>Filtrar por departamento</label>
+            <select id="departamentoSelect">
+                <option value="todos">Todos</option>
+                <option>La Guajira</option>
+                <option>Cesar</option>
+                <option>Atlántico</option>
+                <option>Magdalena</option>
+            </select>
+        </div>
+
+        <div class="filtro-item">
+            <label>Buscar por mes</label>
+            <input type="text" id="buscadorMes" placeholder="Ej: Enero, Febrero...">
+        </div>
+
+        <div class="filtro-item">
+            <label>Filtrar por producción (MWh)</label>
+            <input type="range" id="rangoProduccion" min="250" max="400" value="400">
+            <span id="valorRango">400</span>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <table id="tablaSolar">
+        <thead>
+            <tr>
+                <th>Mes</th>
+                <th>Departamento</th>
+                <th>Producción (MWh)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Enero</td><td>La Guajira</td><td>320</td></tr>
+            <tr><td>Febrero</td><td>La Guajira</td><td>340</td></tr>
+            <tr><td>Marzo</td><td>Cesar</td><td>290</td></tr>
+            <tr><td>Abril</td><td>Atlántico</td><td>310</td></tr>
+            <tr><td>Mayo</td><td>Magdalena</td><td>305</td></tr>
+            <tr><td>Junio</td><td>Cesar</td><td>275</td></tr>
+            <tr><td>Julio</td><td>La Guajira</td><td>360</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const rows = document.querySelectorAll("#tablaSolar tbody tr");
+
+    // Resaltado por rangos
+    rows.forEach(row => {
+        const val = Number(row.children[2].innerText);
+        if (val >= 330) row.classList.add("alto");
+        else if (val >= 300) row.classList.add("medio");
+        else row.classList.add("bajo");
+    });
+
+    // Actualizar tarjetas resumen
+    function actualizarStats() {
+        const valores = [...document.querySelectorAll("#tablaSolar tbody tr")]
+            .filter(r => r.style.display !== "none")
+            .map(r => Number(r.children[2].innerText));
+
+        if (valores.length > 0) {
+            document.getElementById("maxValue").innerText = Math.max(...valores);
+            document.getElementById("minValue").innerText = Math.min(...valores);
+            document.getElementById("avgValue").innerText = 
+                (valores.reduce((a,b)=>a+b,0) / valores.length).toFixed(1);
+        } else {
+            document.getElementById("maxValue").innerText = "--";
+            document.getElementById("minValue").innerText = "--";
+            document.getElementById("avgValue").innerText = "--";
+        }
+    }
+
+    actualizarStats();
+
+    // Filtro por departamento
+    document.getElementById("departamentoSelect").addEventListener("change", filtrar);
+
+    // Filtro por mes
+    document.getElementById("buscadorMes").addEventListener("input", filtrar);
+
+    // Filtro por rango
+    document.getElementById("rangoProduccion").addEventListener("input", function () {
+        document.getElementById("valorRango").innerText = this.value;
+        filtrar();
+    });
+
+    function filtrar() {
+        const dep = document.getElementById("departamentoSelect").value;
+        const mesBuscado = document.getElementById("buscadorMes").value.toLowerCase();
+        const rangoMax = Number(document.getElementById("rangoProduccion").value);
+
+        rows.forEach(row => {
+            const mes = row.children[0].innerText.toLowerCase();
+            const departamento = row.children[1].innerText;
+            const produccion = Number(row.children[2].innerText);
+
+            const coincideDep = dep === "todos" || departamento === dep;
+            const coincideMes = mes.includes(mesBuscado);
+            const coincideRango = produccion <= rangoMax;
+
+            row.style.display = (coincideDep && coincideMes && coincideRango) ? "" : "none";
+        });
+
+        actualizarStats();
+    }
+</script>
+
+</body>
+</html>
